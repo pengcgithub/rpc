@@ -9,10 +9,12 @@
 
     <context:property-placeholder location="classpath:rpc.properties"/>
 
+    <!-- 第一种实现：原生zookeeper客户端 -->
     <bean id="serviceDiscovery" class="com.xxx.rpc.registry.zookeeper.ZooKeeperServiceDiscovery">
         <constructor-arg name="zkAddress" value="${rpc.registry_address}"/>
     </bean>
 
+    <!-- 第二种实现：zookeeper curator框架 -->
     <bean id="serviceCuratorDiscovery" class="com.xxx.rpc.registry.zookeeper.ZookeeperCuratorServiceDiscovery">
         <constructor-arg name="zkAddress" value="${rpc.registry_address}"/>
     </bean>

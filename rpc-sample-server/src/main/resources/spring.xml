@@ -11,10 +11,12 @@
 
     <context:property-placeholder location="classpath:rpc.properties"/>
 
+    <!-- 第一种实现：原生zookeeper客户端 -->
     <bean id="serviceRegistry" class="com.xxx.rpc.registry.zookeeper.ZooKeeperServiceRegistry">
         <constructor-arg name="zkAddress" value="${rpc.registry_address}"/>
     </bean>
 
+    <!-- 第二种实现：zookeeper curator框架 -->
     <bean id="serviceCuratorRegistry" class="com.xxx.rpc.registry.zookeeper.ZookeeperCuratorServiceRegistry">
         <constructor-arg name="zkAddress" value="${rpc.registry_address}"/>
     </bean>
