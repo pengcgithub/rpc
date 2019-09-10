@@ -9,8 +9,11 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * RPC 客户端（用于发送 RPC 请求）
@@ -54,9 +57,13 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse> {
                 @Override
                 public void initChannel(SocketChannel channel) throws Exception {
                     ChannelPipeline pipeline = channel.pipeline();
-                    pipeline.addLast(new RpcEncoder(RpcRequest.class)); // 编码 RPC 请求
-                    pipeline.addLast(new RpcDecoder(RpcResponse.class)); // 解码 RPC 响应
-                    pipeline.addLast(RpcClient.this); // 处理 RPC 响应
+                    // 编码 RPC 请求
+                    pipeline.addLast(new RpcEncoder(RpcRequest.class));
+                    // 解码 RPC 响应
+                    pipeline.addLast(new RpcDecoder(RpcResponse.class));
+                    pipeline.addLast(new IdleStateHandler(60, 45, 20, TimeUnit.SECONDS));
+                    // 处理 RPC 响应
+                    pipeline.addLast(RpcClient.this);
                 }
             });
             bootstrap.option(ChannelOption.TCP_NODELAY, true);
