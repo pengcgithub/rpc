@@ -61,7 +61,7 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse> {
                     pipeline.addLast(new RpcEncoder(RpcRequest.class));
                     // 解码 RPC 响应
                     pipeline.addLast(new RpcDecoder(RpcResponse.class));
-                    pipeline.addLast(new IdleStateHandler(60, 45, 20, TimeUnit.SECONDS));
+                    pipeline.addLast(new IdleStateHandler(0, 4, 0, TimeUnit.SECONDS));
                     // 处理 RPC 响应
                     pipeline.addLast(RpcClient.this);
                 }

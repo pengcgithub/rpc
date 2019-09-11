@@ -92,7 +92,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
                     pipeline.addLast(new RpcDecoder(RpcRequest.class));
                     // 编码 RPC 响应
                     pipeline.addLast(new RpcEncoder(RpcResponse.class));
-                    pipeline.addLast(new IdleStateHandler(60, 45, 20, TimeUnit.SECONDS));
+                    pipeline.addLast(new IdleStateHandler(6, 0, 0, TimeUnit.SECONDS));
                     pipeline.addLast(new ServerHeartbeatHandler());
                     // 处理 RPC 请求
                     pipeline.addLast(new RpcServerHandler(handlerMap));
